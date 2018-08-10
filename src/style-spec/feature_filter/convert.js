@@ -53,6 +53,15 @@ export default function convertFilter(filter: FilterSpecification): mixed {
  *         false
  *       ]
  *     ]
+ *
+ * An alternative, possibly more direct approach would be to use type checks
+ * in the conversion of each comparison operator, so that the converted version
+ * of each individual ==, >=, etc. would mimic the legacy filter semantics. The
+ * downside of this approach is that it can lead to many more type checks than
+ * would otherwise be necessary: outside the context of an "any" expression,
+ * bailing out due to a runtime type error (expression semantics) and returning
+ * false (legacy filter semantics) are equivalent: they cause the filter to
+ * produce a `false` result.
  */
 function _convertFilter(filter: FilterSpecification, expectedTypes: ExpectedTypes): mixed {
     if (isExpressionFilter(filter)) { return filter; }
